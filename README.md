@@ -1,2 +1,13 @@
 # quartobimestre
 acabo aleluiaa
+
+relato:
+O desenvolvimento do meu projeto foi uma experiência marcante tanto em termos técnicos quanto pessoais. Logo no início, defini expectativas altas: queria criar um sistema funcional, organizado e com algumas funcionalidades diferenciadas, como um chat online em tempo real. Embora nem todas as ideias tenham sido implementadas, considero que o projeto atendeu quase completamente ao que eu esperava entregar. A estrutura principal ficou sólida, o funcionamento geral ocorreu como planejado e o aprendizado obtido durante o processo superou minhas próprias expectativas.
+
+Durante a criação do projeto, enfrentei algumas dificuldades importantes, sendo a principal delas o tempo necessário para desenvolver cada etapa. A quantidade de detalhes, ajustes e testes fez com que o cronograma fosse um desafio constante. Ainda assim, foi justamente essa pressão de tempo que me levou a evoluir mais rápido. A prática diária me permitiu adquirir um bom domínio de JavaScript, fortalecer meu raciocínio lógico e entender melhor a integração entre diferentes partes de um sistema. Além disso, também aprendi bastante sobre o uso de inteligência artificial, tanto como ferramenta de apoio quanto como tecnologia de implementação.
+
+Minha experiência com IA ao longo do projeto foi, ao mesmo tempo, excelente e desesperadora. Excelente pela eficiência: a IA ajudou a acelerar pesquisas, encontrar erros, gerar ideias e melhorar minha organização. Porém, também foi desesperadora em certos momentos, especialmente quando eu ultrapassava o limite mensal e ficava sem acesso — o que me obrigava a me virar, pesquisar mais por conta própria e pensar em soluções alternativas. No fim das contas, isso acabou sendo um aprendizado útil também.
+
+Quanto às minhas preferências dentro da área de desenvolvimento, descobri que gosto muito mais do backend. Achei essa parte mais divertida e interessante, especialmente pela lógica envolvida, pela organização das rotas, da estrutura de dados e pela sensação de “construir o motor” da aplicação. Apesar disso, lidar com o frontend também foi importante, pois me ajudou a entender a experiência do usuário e como tudo se conecta visualmente.
+
+No geral, meu projeto foi uma jornada de evolução. Mesmo sem implementar tudo o que imaginei, consegui entregar algo funcional, bem estruturado e alinhado às minhas metas principais. Aprendi ferramentas novas, ganhei segurança no uso de JavaScript e tive contato direto com conceitos modernos que certamente levarei para projetos futuros. O processo foi desafiador, mas extremamente enriquecedor, e mostrou claramente o quanto evoluí como desenvolvedor.
