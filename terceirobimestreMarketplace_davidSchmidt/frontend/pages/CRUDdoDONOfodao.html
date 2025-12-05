@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CRUD Dono - GameMarket</title>
+    <link rel="stylesheet" href="../css/CRUDdoDONOfodao.css" />
+  </head>
+  <body>
+    <script src="../js/router.js"></script>
+    <script>
+      // Redirecionar para o menu do Dono
+      routeTo('pages/CRUDdoDONOfodao-menu.html');
+    </script>
+  </body>
+</html>
+
+    <div
+      id="modal-editar-produto"
+      style="
+        display: none;
+        position: fixed;
+        top: 20%;
+        left: 40%;
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        z-index: 1000;
+      "
+    >
+      <h3>Editar Produto</h3>
+      <form id="form-editar-produto">
+        <input type="hidden" id="edit-produto-id" />
+        <label>Nome: <input type="text" id="edit-produto-nome" /></label><br />
+        <label>Preço: <input type="number" id="edit-produto-preco" /></label
+        ><br />
+        <button type="submit">Salvar</button>
+        <button type="button" onclick="fecharModalEditar()">Cancelar</button>
+      </form>
+    </div>
+
+    <script src="../js/router.js"></script>
+    <script src="../js/CRUDdoDONOfodao.js"></script>
+  </body>
+</html>

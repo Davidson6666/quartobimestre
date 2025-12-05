@@ -1,0 +1,3 @@
+const imgSrc = p.imagem_url.startsWith('http')
+  ? p.imagem_url
+  : `http://localhost:3000/${p.imagem_url.replace(/^\/+/, '')}`;

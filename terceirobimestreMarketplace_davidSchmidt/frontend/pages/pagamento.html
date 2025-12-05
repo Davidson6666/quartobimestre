@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pagamento</title>
+    <style>
+      body {
+        background: #f6f6fa;
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .pagamento-wrapper {
+        max-width: 400px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(80, 80, 160, 0.1);
+        padding: 32px 28px 24px 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .pagamento-wrapper h2 {
+        color: #5c4efc;
+        font-size: 2rem;
+        margin-bottom: 8px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      .pagamento-wrapper p {
+        margin: 4px 0;
+        color: #444;
+        font-size: 1rem;
+      }
+      .pagamento-label {
+        font-weight: 500;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        color: #5c4efc;
+        display: block;
+      }
+      .pagamento-input,
+      .pagamento-select {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #d1d1e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        margin-bottom: 12px;
+        background: #fafaff;
+        transition: border 0.2s;
+      }
+      .pagamento-input:focus,
+      .pagamento-select:focus {
+        border-color: #5c4efc;
+        outline: none;
+      }
+      #pix-section,
+      #cartao-section {
+        width: 100%;
+        margin-top: 18px;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      #pix-section img {
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        background: #fafaff;
+      }
+      .pagamento-btn {
+        width: 100%;
+        background: #5c4efc;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .pagamento-btn:hover {
+        background: #4739c4;
+      }
+      #cartao-erro {
+        color: #e74c3c;
+        font-size: 0.95rem;
+        margin-top: 8px;
+        min-height: 20px;
+      }
+      @media (max-width: 500px) {
+        .pagamento-wrapper {
+          max-width: 98vw;
+          padding: 18px 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      console.log("🚀 HTML carregado, scripts vão rodar");
+    </script>
+
+    <div class="pagamento-wrapper">
+      <h2 id="produto-nome">Carregando...</h2>
+      <p id="produto-descricao"></p>
+      <p id="produto-preco"></p>
+      <p id="produto-estoque"></p>
+      <p id="produto-vendedor"></p>
+      <label class="pagamento-label"
+        >Quantidade:
+        <input
+          type="number"
+          id="quantidade"
+          class="pagamento-input"
+          value="1"
+          min="1"
+        />
+      </label>
+      <label class="pagamento-label"
+        >Forma de pagamento:
+        <select id="forma-pagamento" class="pagamento-select">
+          <option value="pix">PIX</option>
+          <option value="cartao">Cartão</option>
+        </select>
+      </label>
+      <div id="pix-section">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=chavepix123"
+          alt="QR Code PIX"
+        />
+        <br />
+        <button id="confirmar-pix" class="pagamento-btn">
+          Confirmar Compra
+        </button>
+      </div>
+      <div id="cartao-section" style="display: none">
+        <label class="pagamento-label"
+          >Número do cartão:
+          <input
+            type="text"
+            id="numero-cartao"
+            class="pagamento-input"
+            maxlength="19"
+            placeholder="1234 5678 9012 3456"
+          />
+        </label>
+        <label class="pagamento-label"
+          >Nome no cartão:
+          <input type="text" id="nome-cartao" class="pagamento-input" />
+        </label>
+        <label class="pagamento-label"
+          >Validade:
+          <input
+            type="text"
+            id="validade-cartao"
+            class="pagamento-input"
+            maxlength="5"
+            placeholder="MM/AA"
+          />
+        </label>
+        <label class="pagamento-label"
+          >CVV:
+          <input
+            type="text"
+            id="cvv-cartao"
+            class="pagamento-input"
+            maxlength="3"
+            placeholder="123"
+          />
+        </label>
+        <button id="validar-cartao" class="pagamento-btn">
+          Validar Cartão
+        </button>
+        <div id="cartao-erro"></div>
+      </div>
+    </div>
+
+    <script src="../js/router.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/pagamento.js"></script>
+  </body>
+</html>

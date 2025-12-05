@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameMarket - Marketplace de Produtos para Games</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/homepage.css" />
+  </head>
+  <body>
+    <!-- Header/Navbar -->
+    <header class="header">
+      <div class="container">
+        <div class="nav-wrapper">
+          <div class="logo">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+              <polyline points="17 2 12 7 7 2"></polyline>
+            </svg>
+            <span>GameMarket</span>
+          </div>
+
+          <div class="search-bar">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Buscar produtos, jogos, categorias..."
+            />
+            <button class="search-btn">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
+          </div>
+
+          <nav class="nav-links">
+            <a href="index.html" class="nav-link active">Início</a>
+            <div class="nav-dropdown">
+              <a href="pages/login.html" class="nav-link" id="loginBtn"
+                >Entrar ▾</a
+              >
+              <div class="nav-dropdown-content">
+                <a href="pages/login.html" class="nav-link">Entrar</a>
+                <!-- 'Entrar como Dono' removed from public navbar -->
+              </div>
+            </div>
+            <a href="#" class="nav-link btn-primary" id="registerBtn"
+              >Registrar</a
+            >
+            <a
+              href="pages/CRUDadm.html"
+              class="nav-link btn-admin"
+              id="crudAdminBtn"
+              style="display: none"
+              >CRUD Admin</a
+            >
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            O Maior Marketplace<br />
+            de <span class="gradient-text">Produtos para</span><br />
+            <span class="gradient-text-alt">Games</span>
+          </h1>
+          <p class="hero-subtitle">
+            Compre e venda itens, skins, moedas e muito mais dos seus jogos
+            favoritos. Transações seguras e comunidade ativa.
+          </p>
+          <div class="hero-buttons">
+            <button class="btn btn-large btn-primary" id="exploreBtn">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              Explorar Produtos
+            </button>
+            <button class="btn btn-large btn-secondary" id="becomeSellerBtn">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                <polyline points="17 2 12 7 7 2"></polyline>
+              </svg>
+              Torne-se um Vendedor
+            </button>
+          </div>
+
+          <div class="stats-cards">
+            <div class="stat-card">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                <polyline points="17 2 12 7 7 2"></polyline>
+              </svg>
+              <div>
+                <div class="stat-value">1000+</div>
+                <div class="stat-label">Jogos</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+              <div>
+                <div class="stat-value">Vendas Seguras</div>
+                <div class="stat-label"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                ></polygon>
+              </svg>
+              <div>
+                <div class="stat-value">50k+</div>
+                <div class="stat-label">Produtos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Produtos em Destaque</h2>
+            <p class="section-subtitle">
+              Os melhores produtos disponíveis agora
+            </p>
+          </div>
+          <button class="btn btn-outline" id="viewAllProductsBtn">
+            Ver Todos
+          </button>
+        </div>
+
+        <div class="products-grid" id="featuredProducts">
+          <div class="loading">Carregando produtos...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Categorias Populares</h2>
+            <p class="section-subtitle">Explore por tipo de produto</p>
+          </div>
+        </div>
+
+        <div class="categories-grid">
+          <div class="category-card">
+            <div class="category-icon">🎨</div>
+            <h3>Skins</h3>
+            <p>Personalize seus personagens</p>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">💰</div>
+            <h3>Moedas</h3>
+            <p>Moeda virtual para seus jogos</p>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">👤</div>
+            <h3>Contas</h3>
+            <p>Contas prontas para jogar</p>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">💎</div>
+            <h3>Itens Raros</h3>
+            <p>Itens exclusivos e limitados</p>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">⚡</div>
+            <h3>Power Leveling</h3>
+            <p>Suba de nível rapidamente</p>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">🚀</div>
+            <h3>Boosting</h3>
+            <p>Melhore seu ranking</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-title">Pronto para começar a vender?</h2>
+          <p class="cta-subtitle">
+            Junte-se a milhares de vendedores e comece a lucrar com seus itens
+            de jogos hoje mesmo.
+          </p>
+          <button class="btn btn-large btn-primary" id="createSellerAccountBtn">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+              <polyline points="17 2 12 7 7 2"></polyline>
+            </svg>
+            Criar Conta de Vendedor
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>GameMarket</h3>
+            <p>O marketplace líder em produtos para games</p>
+          </div>
+          <div class="footer-section">
+            <h4>Empresa</h4>
+            <a href="#">Sobre Nós</a>
+            <a href="#">Carreiras</a>
+            <a href="#">Blog</a>
+          </div>
+          <div class="footer-section">
+            <h4>Suporte</h4>
+            <a href="#">Central de Ajuda</a>
+            <a href="#">Contato</a>
+            <a href="#">FAQ</a>
+          </div>
+          <div class="footer-section">
+            <h4>Legal</h4>
+            <a href="#">Termos de Uso</a>
+            <a href="#">Privacidade</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 GameMarket. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <button
+      id="sellerDashboardBtn"
+      style="display: none"
+      class="btn btn-primary"
+    >
+      Ir para Dashboard do Vendedor
+    </button>
+
+    <script src="js/router.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/homepage.js"></script>
+  </body>
+</html>

@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extrato de Pagamentos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: #333;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group select,
+    .filter-group button {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .filter-group select {
+      background-color: white;
+      color: #333;
+    }
+
+    .filter-group button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .filter-group button:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .message.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .payment-item {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #fafafa;
+    }
+
+    .payment-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .payment-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .payment-info label {
+      font-size: 12px;
+      color: #666;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .payment-info value {
+      font-size: 14px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .status-badge {
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: capitalize;
+      text-align: center;
+    }
+
+    .status-badge.pendente {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-badge.aprovado {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-badge.pago {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .payment-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .detail-item label {
+      font-size: 12px;
+      color: #666;
+      font-weight: bold;
+    }
+
+    .detail-item span {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .items-list {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+
+    .items-list h4 {
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .item-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 15px;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+      align-items: center;
+    }
+
+    .item-row:last-child {
+      border-bottom: none;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-confirm {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn-confirm:hover:not(:disabled) {
+      background-color: #218838;
+    }
+
+    .btn-confirm:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .btn-view {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-view:hover {
+      background-color: #0056b3;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      font-size: 16px;
+      color: #666;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #007bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .empty-state p {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .pagination button {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      background-color: white;
+      color: #333;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .pagination button.active {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    .pagination button:hover:not(.active) {
+      background-color: #f0f0f0;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-content h3 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .modal-content .form-group {
+      margin-bottom: 15px;
+    }
+
+    .modal-content label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      color: #666;
+      font-weight: bold;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .modal-buttons .btn-cancel {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .modal-buttons .btn-confirm {
+      background-color: #28a745;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .payment-header {
+        grid-template-columns: 1fr;
+      }
+
+      .payment-details {
+        grid-template-columns: 1fr;
+      }
+
+      .item-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📄 Extrato de Pagamentos</h1>
+      <button class="btn btn-view" onclick="routeTo('../index.html')">← Voltar</button>
+    </div>
+
+    <div class="filter-group">
+      <select id="statusFilter" onchange="loadPayments()">
+        <option value="">Todos os Status</option>
+        <option value="pendente">Pendente</option>
+        <option value="aprovado">Aprovado</option>
+        <option value="pago">Pago</option>
+      </select>
+      <button onclick="loadPayments()">🔄 Atualizar</button>
+    </div>
+
+    <div id="message" class="message"></div>
+    <div id="content">
+      <div class="loading">
+        <span class="spinner"></span>
+        Carregando extrato...
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+      <h3>Confirmar Pagamento</h3>
+      <div class="form-group">
+        <label>Código da Transação (Opcional):</label>
+        <input type="text" id="transacaoCode" placeholder="Ex: TRX123456789">
+      </div>
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeConfirmModal()">Cancelar</button>
+        <button class="btn-confirm" onclick="submitConfirmPayment()">Confirmar Pagamento</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/router.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    const baseUrl = "http://localhost:3000/api";
+    const token = localStorage.getItem("token");
+    let currentPage = 1;
+    let totalPages = 1;
+    let selectedPaymentId = null;
+
+    // Carregar ao abrir página
+    window.addEventListener("load", loadPayments);
+
+    async function loadPayments() {
+      const content = document.getElementById("content");
+      const status = document.getElementById("statusFilter").value;
+
+      try {
+        content.innerHTML = `
+          <div class="loading">
+            <span class="spinner"></span>
+            Carregando extrato...
+          </div>
+        `;
+
+        const url = new URL(`${baseUrl}/sales/extrato/pagamentos`);
+        url.searchParams.append("page", currentPage);
+        url.searchParams.append("limit", 10);
+        if (status) url.searchParams.append("status", status);
+
+        const response = await fetch(url.toString(), {
+          headers: { Authorization: "Bearer " + token },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        totalPages = data.data.pagination.totalPages;
+        content.innerHTML = renderPayments(data.data.payments);
+        renderPagination();
+      } catch (error) {
+        console.error("Erro:", error);
+        showMessage(`❌ Erro ao carregar extrato: ${error.message}`, "error");
+        content.innerHTML = `
+          <div class="empty-state">
+            <p>Não foi possível carregar o extrato</p>
+          </div>
+        `;
+      }
+    }
+
+    function renderPayments(payments) {
+      if (!payments || payments.length === 0) {
+        return `
+          <div class="empty-state">
+            <p>📭 Nenhum pagamento encontrado</p>
+          </div>
+        `;
+      }
+
+      let html = "";
+      payments.forEach((payment, index) => {
+        const isPending = payment.status === "pendente";
+        const formattedDate = new Date(payment.data_venda).toLocaleDateString("pt-BR");
+        const confirmedDate = payment.data_confirmacao
+          ? new Date(payment.data_confirmacao).toLocaleDateString("pt-BR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+          : "-";
+
+        html += `
+          <div class="payment-item">
+            <div class="payment-header">
+              <div class="payment-info">
+                <label>Venda #${payment.venda_id}</label>
+                <value>${formattedDate}</value>
+              </div>
+              <div class="payment-info">
+                <label>Vendedor</label>
+                <value>${payment.vendedor_nome}</value>
+              </div>
+              <div class="payment-info">
+                <label>Valor</label>
+                <value><strong>R$ ${parseFloat(payment.valor).toFixed(2).replace(".", ",")}</strong></value>
+              </div>
+              <div class="status-badge ${payment.status}">
+                ${payment.status === "pendente" ? "⏳ PENDENTE" : "✓ APROVADO"}
+              </div>
+            </div>
+
+            <div class="payment-details">
+              <div class="detail-item">
+                <label>Método de Pagamento</label>
+                <span>${payment.metodo_pagamento.toUpperCase()}</span>
+              </div>
+              <div class="detail-item">
+                <label>Itens</label>
+                <span>${payment.total_itens} item(ns)</span>
+              </div>
+              <div class="detail-item">
+                <label>Status da Venda</label>
+                <span>${payment.venda_status}</span>
+              </div>
+              <div class="detail-item">
+                <label>Data de Confirmação</label>
+                <span>${confirmedDate}</span>
+              </div>
+            </div>
+
+            ${
+              payment.itens && payment.itens.length > 0
+                ? `
+              <div class="items-list">
+                <h4>📦 Itens Comprados</h4>
+                ${payment.itens
+                  .map(
+                    (item, idx) => `
+                  <div class="item-row">
+                    <span><strong>${item.produto_nome}</strong></span>
+                    <span>${item.quantidade}x</span>
+                    <span>R$ ${parseFloat(item.preco).toFixed(2).replace(".", ",")}</span>
+                    <span><strong>R$ ${parseFloat(item.subtotal).toFixed(2).replace(".", ",")}</strong></span>
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+            `
+                : ""
+            }
+
+            <div class="action-buttons">
+              ${
+                isPending
+                  ? `
+                <button class="btn btn-confirm" onclick="openConfirmModal(${payment.pagamento_id})">
+                  ✓ Confirmar Pagamento
+                </button>
+              `
+                  : ""
+              }
+              <button class="btn btn-view" onclick="viewPaymentDetails(${payment.venda_id})">
+                👁 Ver Detalhes
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      return html;
+    }
+
+    function renderPagination() {
+      if (totalPages <= 1) return;
+
+      const paginationHtml = `
+        <div class="pagination">
+          ${currentPage > 1 ? `<button onclick="changePage(${currentPage - 1})">← Anterior</button>` : ""}
+          ${Array.from({ length: totalPages }, (_, i) => i + 1)
+            .map(
+              (page) => `
+            <button class="${page === currentPage ? "active" : ""}" onclick="changePage(${page})">
+              ${page}
+            </button>
+          `
+            )
+            .join("")}
+          ${currentPage < totalPages ? `<button onclick="changePage(${currentPage + 1})">Próxima →</button>` : ""}
+        </div>
+      `;
+
+      document.getElementById("content").innerHTML += paginationHtml;
+    }
+
+    function changePage(page) {
+      currentPage = page;
+      loadPayments();
+      window.scrollTo(0, 0);
+    }
+
+    function openConfirmModal(paymentId) {
+      selectedPaymentId = paymentId;
+      document.getElementById("transacaoCode").value = "";
+      document.getElementById("confirmModal").classList.add("show");
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("confirmModal").classList.remove("show");
+      selectedPaymentId = null;
+    }
+
+    async function submitConfirmPayment() {
+      const code = document.getElementById("transacaoCode").value || `TRX${Date.now()}`;
+      const button = event.target;
+      button.disabled = true;
+
+      try {
+        // Encontrar a venda que corresponde ao pagamento
+        const payment = document.querySelector(`[data-payment-id="${selectedPaymentId}"]`);
+        // Buscar venda_id a partir dos dados exibidos
+        const vendaId = Array.from(document.querySelectorAll(".payment-item")).find((item) =>
+          item.innerHTML.includes(`data-payment-id="${selectedPaymentId}"`)
+        );
+
+        // Alternativa: usar a API para buscar o venda_id
+        // Por enquanto, recarregamos a página para obter os dados
+
+        const response = await fetch(`${baseUrl}/sales/${selectedPaymentId}/confirm-payment`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({ codigo_transacao: code }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erro ${response.status}`);
+        }
+
+        showMessage("✅ Pagamento confirmado com sucesso!", "success");
+        closeConfirmModal();
+        setTimeout(() => {
+          loadPayments();
+        }, 1500);
+      } catch (error) {
+        showMessage(`❌ Erro ao confirmar pagamento: ${error.message}`, "error");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    function viewPaymentDetails(vendaId) {
+      // Navegar para detalhes da venda
+      routeTo(`pages/sale-details.html?id=${vendaId}`);
+    }
+
+    function showMessage(text, type) {
+      const msg = document.getElementById("message");
+      msg.textContent = text;
+      msg.className = `message show ${type}`;
+      setTimeout(() => {
+        msg.classList.remove("show");
+      }, 5000);
+    }
+
+    document.getElementById("confirmModal").addEventListener("click", (e) => {
+      if (e.target.id === "confirmModal") {
+        closeConfirmModal();
+      }
+    });
+  </script>
+</body>
+</html>

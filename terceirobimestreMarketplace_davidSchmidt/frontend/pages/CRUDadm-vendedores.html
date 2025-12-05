@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>CRUD Vendedores - GameMarket</title>
+  <link rel="stylesheet" href="../css/CRUDadm.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>👥 Gerenciar Vendedores</h1>
+
+    <div class="crud-section">
+      <h2>Vendedores</h2>
+      <input
+        type="number"
+        id="busca-vendedor-id"
+        placeholder="ID do vendedor"
+      />
+      <button onclick="buscarVendedorPorId()">Buscar</button>
+      <button onclick="excluirVendedorPorId()" style="background-color: #dc3545;">Excluir Vendedor</button>
+      <table id="vendedores-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Vendedores serão listados aqui -->
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button onclick="routeTo('CRUDadm-menu.html')" class="btn">
+        ← Voltar para Menu
+      </button>
+      <button onclick="routeTo('../index.html')" class="btn" style="background-color: #6c757d;">
+        Ir para Início
+      </button>
+    </div>
+  </div>
+
+  <script src="../js/router.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/CRUDadm.js"></script>
+  <script>
+    // Carregar vendedores ao abrir a página
+    window.addEventListener("load", function () {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Você precisa estar logado");
+        routeTo("login.html");
+        return;
+      }
+      listarVendedores();
+    });
+  </script>
+</body>
+</html>

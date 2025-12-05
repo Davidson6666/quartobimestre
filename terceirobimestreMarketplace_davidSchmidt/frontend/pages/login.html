@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GameMarket</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo-large">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                        <polyline points="17 2 12 7 7 2"></polyline>
+                    </svg>
+                </div>
+                <h1>Entrar</h1>
+                <p>Bem-vindo de volta ao GameMarket</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="email">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                        </svg>
+                        E-mail
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="seu@email.com"
+                        required
+                        autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        Senha
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="••••••••"
+                        required
+                        autocomplete="current-password">
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        <span>Lembrar-me</span>
+                    </label>
+                    <a href="#" class="link">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large btn-block" id="submitBtn">
+                    Entrar
+                </button>
+
+                <div class="divider">
+                    <span>ou</span>
+                </div>
+
+                <div class="auth-footer">
+                    <p>Não tem uma conta? <a href="register.html" class="link">Criar conta</a></p>
+                </div>
+            </form>
+
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            <div id="successMessage" class="success-message" style="display: none;"></div>
+        </div>
+
+        <a href="../index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m12 19-7-7 7-7"></path>
+                <path d="M19 12H5"></path>
+            </svg>
+            Voltar ao Marketplace
+        </a>
+    </div>
+
+    <!-- Exemplo de formulário de login -->
+    <div class="login-modal" id="loginModal" style="display:none;">
+        <div class="modal-content">
+            <h2>Entrar como Vendedor</h2>
+            <form id="loginForm">
+                <label for="loginEmail">E-mail:</label>
+                <input type="email" id="loginEmail" name="email" required>
+
+                <label for="loginPassword">Senha:</label>
+                <input type="password" id="loginPassword" name="password" required>
+
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <button type="button" class="btn btn-secondary" id="closeLoginModal">Cancelar</button>
+            </form>
+            <div id="loginError" class="error-message"></div>
+        </div>
+    </div>
+
+    <script src="../js/router.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+</html>

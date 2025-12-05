@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatórios - Menu</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+      font-size: 16px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .menu-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 150px;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    .menu-card.vendedor {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .menu-card.vendedor:hover {
+      box-shadow: 0 15px 30px rgba(245, 87, 108, 0.4);
+    }
+
+    .menu-card.mes {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .menu-card.mes:hover {
+      box-shadow: 0 15px 30px rgba(79, 172, 254, 0.4);
+    }
+
+    .icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .footer-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-voltar {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .btn-voltar:hover {
+      background-color: #5a6268;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .menu-card {
+        min-height: 120px;
+        padding: 20px;
+      }
+
+      .icon {
+        font-size: 32px;
+        margin-bottom: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Relatórios</h1>
+    <p class="subtitle">Selecione um tipo de relatório</p>
+
+    <div class="menu-grid">
+      <a href="relatorio.html" class="menu-card vendedor">
+        <div class="icon">📈</div>
+        <div>Vendas por Vendedor</div>
+      </a>
+      <a href="relatorio-mes.html" class="menu-card mes">
+        <div class="icon">💰</div>
+        <div>Vendas por Mês</div>
+      </a>
+    </div>
+
+    <div class="footer-buttons">
+      <button class="btn-voltar" onclick="routeTo('../index.html')">
+        ← Voltar para Início
+      </button>
+    </div>
+  </div>
+
+  <script src="../js/router.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>CRUD Produtos - GameMarket</title>
+  <link rel="stylesheet" href="../css/CRUDadm.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📦 Gerenciar Produtos</h1>
+
+    <div class="crud-section">
+      <h2>Produtos</h2>
+      <table id="produtos-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Vendedor</th>
+            <th>Preço</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Produtos serão listados aqui -->
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button onclick="routeTo('CRUDadm-menu.html')" class="btn">
+        ← Voltar para Menu
+      </button>
+      <button onclick="routeTo('../index.html')" class="btn" style="background-color: #6c757d;">
+        Ir para Início
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="modal-editar-produto"
+    style="
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 40%;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      z-index: 1000;
+    "
+  >
+    <h3>Editar Produto</h3>
+    <form id="form-editar-produto">
+      <input type="hidden" id="edit-produto-id" />
+      <label>Nome: <input type="text" id="edit-produto-nome" /></label><br />
+      <label>Preço: <input type="number" id="edit-produto-preco" /></label
+      ><br />
+      <button type="submit">Salvar</button>
+      <button type="button" onclick="fecharModalEditar()">Cancelar</button>
+    </form>
+  </div>
+
+  <script src="../js/router.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/CRUDadm.js"></script>
+  <script>
+    // Carregar produtos ao abrir a página
+    window.addEventListener("load", function () {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Você precisa estar logado");
+        routeTo("login.html");
+        return;
+      }
+      listarProdutos();
+    });
+  </script>
+</body>
+</html>

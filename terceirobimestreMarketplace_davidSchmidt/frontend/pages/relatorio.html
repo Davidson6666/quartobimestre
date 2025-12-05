@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatório de Vendas</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      label {
+        font-weight: bold;
+        color: #333;
+      }
+
+      input,
+      select {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      button.print-btn {
+        background-color: #28a745;
+      }
+
+      button.print-btn:hover {
+        background-color: #218838;
+      }
+
+      .report-header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #333;
+        padding-bottom: 20px;
+      }
+
+      .report-header h1 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .report-header p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .report-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .info-card {
+        background: #f8f9fa;
+        padding: 15px;
+        border-left: 4px solid #007bff;
+        border-radius: 4px;
+      }
+
+      .info-card-title {
+        font-size: 12px;
+        color: #666;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+
+      .info-card-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+      }
+
+      thead {
+        background-color: #007bff;
+        color: white;
+      }
+
+      th {
+        padding: 12px;
+        text-align: left;
+        font-weight: bold;
+        border: 1px solid #ddd;
+      }
+
+      td {
+        padding: 12px;
+        border: 1px solid #ddd;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+
+      tbody tr:hover {
+        background-color: #e9ecef;
+      }
+
+      .total-row {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+      }
+
+      .total-row td {
+        border-color: #007bff;
+      }
+
+      .message {
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+
+      .message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .message.info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      .hide {
+        display: none;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+        }
+
+        .container {
+          box-shadow: none;
+          padding: 0;
+          max-width: 100%;
+        }
+
+        .controls,
+        .button-group,
+        button {
+          display: none !important;
+        }
+
+        .report-content {
+          page-break-inside: avoid;
+        }
+
+        table {
+          page-break-inside: avoid;
+        }
+
+        thead {
+          display: table-header-group;
+        }
+
+        tbody tr {
+          page-break-inside: avoid;
+        }
+      }
+
+      .loading {
+        text-align: center;
+        padding: 40px;
+        font-size: 18px;
+        color: #666;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-right: 10px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: capitalize;
+      }
+
+      .status-badge.concluída {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .status-badge.processando {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+
+      .status-badge.pendente {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
+
+      .status-badge.cancelada {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="button-group" style="margin-bottom: 20px">
+        <button onclick="routeTo('../index.html')">← Voltar</button>
+        <button class="print-btn" onclick="window.print()">🖨️ Imprimir</button>
+      </div>
+
+      <div class="controls" style="margin-bottom: 20px">
+        <div class="form-group">
+          <label for="vendedor-select">Selecionar Vendedor:</label>
+          <select id="vendedor-select" onchange="carregarVendasVendedor()">
+            <option value="">-- Carregando vendedores --</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="report-content" class="report-content">
+        <!-- Relatório será renderizado aqui -->
+      </div>
+    </div>
+
+    <script src="../js/router.js"></script>
+    <script>
+      const baseUrl = "http://localhost:3000/api";
+      const token = localStorage.getItem("token");
+
+      // Carregar vendedores ao abrir a página
+      window.addEventListener("load", carregarVendedores);
+
+      async function carregarVendedores() {
+        try {
+          console.log("Buscando vendedores de:", `${baseUrl}/vendedores`);
+
+          const response = await fetch(`${baseUrl}/vendedores`, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          console.log(
+            "Resposta do servidor:",
+            response.status,
+            response.statusText
+          );
+
+          if (!response.ok) {
+            const errorData = await response.text();
+            console.error("Erro:", errorData);
+            throw new Error(`Erro ${response.status}: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          console.log("Vendedores recebidos:", data);
+
+          const vendedores = data.vendedores || [];
+          const select = document.getElementById("vendedor-select");
+
+          if (vendedores.length === 0) {
+            select.innerHTML =
+              '<option value="">Nenhum vendedor encontrado</option>';
+            return;
+          }
+
+          select.innerHTML =
+            '<option value="">-- Selecione um vendedor --</option>';
+
+          vendedores.forEach((v) => {
+            const option = document.createElement("option");
+            option.value = v.id;
+            option.textContent = `${v.usuario_nome} (ID: ${v.id})`;
+            select.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Erro ao carregar vendedores:", error);
+          document.getElementById("vendedor-select").innerHTML =
+            '<option value="">❌ ' + error.message + "</option>";
+        }
+      }
+
+      async function carregarVendasVendedor() {
+        const vendedorId = document.getElementById("vendedor-select").value;
+        const contentDiv = document.getElementById("report-content");
+
+        if (!vendedorId) {
+          contentDiv.innerHTML =
+            '<div class="message info">Selecione um vendedor para visualizar as vendas</div>';
+          return;
+        }
+
+        try {
+          contentDiv.innerHTML = `
+                    <div class="loading">
+                        <span class="spinner"></span>
+                        Carregando vendas do vendedor...
+                    </div>
+                `;
+
+          const response = await fetch(
+            `${baseUrl}/reports/vendedor/${vendedorId}`,
+            {
+              headers: { Authorization: "Bearer " + token },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`Erro ${response.status}: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          contentDiv.innerHTML = renderVendasPorVendedor(data);
+        } catch (error) {
+          console.error("Erro ao carregar relatório:", error);
+          contentDiv.innerHTML = `
+                    <div class="message error">
+                        ❌ Erro ao carregar relatório: ${error.message}
+                    </div>
+                `;
+        }
+      }
+
+      function renderVendasPorVendedor(data) {
+        const {
+          data: { vendedor, resumo, vendas, data_geracao },
+        } = data;
+
+        let html = `
+                <div class="report-header">
+                    <h1>📊 Vendas - ${vendedor.nome}</h1>
+                    <p>ID do Vendedor: <strong>${vendedor.id}</strong></p>
+                    <p>Gerado em: ${data_geracao}</p>
+                </div>
+
+                <div class="report-info">
+                    <div class="info-card">
+                        <div class="info-card-title">Total de Vendas</div>
+                        <div class="info-card-value">${
+                          resumo.total_vendas
+                        }</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-title">Valor Total Vendido</div>
+                        <div class="info-card-value">R$ ${parseFloat(
+                          resumo.valor_total_vendido
+                        )
+                          .toFixed(2)
+                          .replace(".", ",")}</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-title">Ticket Médio</div>
+                        <div class="info-card-value">R$ ${parseFloat(
+                          resumo.ticket_medio
+                        )
+                          .toFixed(2)
+                          .replace(".", ",")}</div>
+                    </div>
+                </div>
+            `;
+
+        if (vendas.length === 0) {
+          html += `
+                    <div class="message info" style="text-align: center; padding: 40px; color: #999;">
+                        📭 Nenhuma venda encontrada
+                    </div>
+                `;
+        } else {
+          vendas.forEach((v, index) => {
+            const statusClass = v.status.toLowerCase();
+            html += `
+                        <div style="margin-bottom: 30px; border: 1px solid #ddd; border-radius: 8px; padding: 15px; background-color: #f9f9f9;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="margin: 0 0 5px 0; color: #333;">Venda #${
+                                      index + 1
+                                    }</h3>
+                                    <p style="margin: 0; color: #666; font-size: 14px;">
+                                        📅 ${v.data_venda} | 
+                                        📦 ${v.quantidade_itens} item(ns)
+                                    </p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 18px; font-weight: bold; color: #007bff;">R$ ${parseFloat(
+                                      v.valor_total
+                                    )
+                                      .toFixed(2)
+                                      .replace(".", ",")}</div>
+                                    <span class="status-badge ${statusClass}">${
+              v.status
+            }</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 15px;">
+                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 14px; font-weight: bold;">📦 Produtos:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                                            <th style="padding: 8px; text-align: left; font-weight: bold; font-size: 13px;">Produto</th>
+                                            <th style="padding: 8px; text-align: center; font-weight: bold; font-size: 13px;">Qtd</th>
+                                            <th style="padding: 8px; text-align: right; font-weight: bold; font-size: 13px;">Preço Unit.</th>
+                                            <th style="padding: 8px; text-align: right; font-weight: bold; font-size: 13px;">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                    `;
+
+            if (v.produtos && v.produtos.length > 0) {
+              v.produtos.forEach((p) => {
+                html += `
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 8px; text-align: left;">
+                                        ${
+                                          p.imagem_url
+                                            ? `<img src="${p.imagem_url}" style="width: 30px; height: 30px; border-radius: 4px; margin-right: 8px; vertical-align: middle;" alt="${p.produto_nome}">`
+                                            : ""
+                                        }
+                                        <strong>${p.produto_nome}</strong>
+                                        ${
+                                          p.descricao
+                                            ? `<br><small style="color: #999;">${p.descricao}</small>`
+                                            : ""
+                                        }
+                                    </td>
+                                    <td style="padding: 8px; text-align: center;">${
+                                      p.quantidade
+                                    }</td>
+                                    <td style="padding: 8px; text-align: right;">R$ ${parseFloat(
+                                      p.preco
+                                    )
+                                      .toFixed(2)
+                                      .replace(".", ",")}</td>
+                                    <td style="padding: 8px; text-align: right; font-weight: bold;">R$ ${parseFloat(
+                                      p.subtotal
+                                    )
+                                      .toFixed(2)
+                                      .replace(".", ",")}</td>
+                                </tr>
+                            `;
+              });
+            }
+
+            html += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+          });
+        }
+
+        return html;
+      }
+
+      function renderVendasPorMes(data) {
+        const {
+          data: {
+            periodo,
+            totais,
+            vendias_por_dia,
+            detalhes_vendas,
+            data_geracao,
+          },
+        } = data;
+
+        let html = `
+                <div class="report-header">
+                    <h1>💰 Relatório de Vendas por Mês</h1>
+                    <p>Gerado em: ${data_geracao}</p>
+                </div>
+
+                <div class="report-info">
+                    <div class="info-card">
+                        <div class="info-card-title">Período</div>
+                        <div class="info-card-value">${periodo}</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-title">Total de Vendas</div>
+                        <div class="info-card-value">${
+                          totais.total_vendas
+                        }</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-title">Faturamento Total</div>
+                        <div class="info-card-value">R$ ${parseFloat(
+                          totais.valor_total
+                        )
+                          .toFixed(2)
+                          .replace(".", ",")}</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-title">Ticket Médio</div>
+                        <div class="info-card-value">R$ ${parseFloat(
+                          totais.ticket_medio
+                        )
+                          .toFixed(2)
+                          .replace(".", ",")}</div>
+                    </div>
+                </div>
+
+                <h2 style="margin: 30px 0 15px 0; font-size: 20px;">Resumo por Dia</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Quantidade de Vendas</th>
+                            <th>Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+        vendias_por_dia.forEach((dia) => {
+          html += `
+                    <tr>
+                        <td>${dia.data}</td>
+                        <td>${dia.quantidade_vendas}</td>
+                        <td>R$ ${parseFloat(dia.valor_total)
+                          .toFixed(2)
+                          .replace(".", ",")}</td>
+                    </tr>
+                `;
+        });
+
+        html += `
+                    </tbody>
+                </table>
+
+                <h2 style="margin: 30px 0 15px 0; font-size: 20px;">Detalhes de Todas as Vendas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Data</th>
+                            <th>Vendedor</th>
+                            <th>Quantidade de Itens</th>
+                            <th>Valor da Venda</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+        detalhes_vendas.forEach((v, index) => {
+          html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${v.data_venda}</td>
+                        <td>${v.vendedor_nome}</td>
+                        <td>${v.quantidade_itens}</td>
+                        <td>R$ ${parseFloat(v.valor_total)
+                          .toFixed(2)
+                          .replace(".", ",")}</td>
+                        <td>${v.status}</td>
+                    </tr>
+                `;
+        });
+
+        html += `
+                    </tbody>
+                </table>
+            `;
+
+        return html;
+      }
+
+      // Carregar relatório ao abrir a página
+      window.addEventListener("load", loadReport);
+
+      async function loadReport() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tipo = urlParams.get("tipo");
+        const contentDiv = document.getElementById("report-content");
+
+        if (tipo === "vendas-mes") {
+          const mes = urlParams.get("mes");
+          const ano = urlParams.get("ano");
+
+          if (!mes || !ano) {
+            contentDiv.innerHTML =
+              '<div class="message error">❌ Parâmetros de mês e ano são obrigatórios</div>';
+            return;
+          }
+
+          try {
+            contentDiv.innerHTML = `
+              <div class="loading">
+                <span class="spinner"></span>
+                Carregando vendas do mês...
+              </div>
+            `;
+
+            const response = await fetch(
+              `${baseUrl}/reports/vendas-mes?mes=${mes}&ano=${ano}`,
+              {
+                headers: { Authorization: "Bearer " + token },
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error(`Erro ${response.status}: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            contentDiv.innerHTML = renderVendasPorMes(data);
+          } catch (error) {
+            console.error("Erro ao carregar relatório:", error);
+            contentDiv.innerHTML = `
+              <div class="message error">
+                ❌ Erro ao carregar relatório: ${error.message}
+              </div>
+            `;
+          }
+        } else {
+          // Padrão: mostrar mensagem de seleção de vendedor
+          contentDiv.innerHTML =
+            '<div class="message info">Selecione um vendedor para visualizar as vendas</div>';
+        }
+      }
+    </script>
+  </body>
+</html>

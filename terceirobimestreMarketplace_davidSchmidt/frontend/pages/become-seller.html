@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tornar-se Vendedor - GameMarket</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/auth.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="logo-large">GameMarket</div>
+          <h1>Tornar-se Vendedor</h1>
+          <p>
+            Insira uma sigla de vendedor única (apenas letras, 2-10 caracteres)
+          </p>
+        </div>
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            />
+            <title>Tornar-se Vendedor - GameMarket</title>
+            <link rel="stylesheet" href="../css/style.css" />
+            <link rel="stylesheet" href="../css/auth.css" />
+          </head>
+          <body>
+            <div class="auth-container">
+              <div class="auth-card">
+                <div class="auth-header">
+                  <div class="logo-large">GameMarket</div>
+                  <h1>Tornar-se Vendedor</h1>
+                  <p>
+                    Insira uma sigla de vendedor única (apenas letras, 2-10
+                    caracteres)
+                  </p>
+                </div>
+
+                <form id="becomeSellerForm" class="auth-form">
+                  <div class="form-group">
+                    <label for="sigla">Sigla do Vendedor</label>
+                    <input
+                      type="text"
+                      id="sigla"
+                      name="sigla"
+                      placeholder="Ex: loja"
+                      required
+                      minlength="2"
+                      maxlength="10"
+                      pattern="^[a-zA-Z]+$"
+                    />
+                    <small class="form-text"
+                      >Somente letras, 2-10 caracteres.</small
+                    >
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-large btn-block"
+                    id="submitBtn"
+                  >
+                    Enviar
+                  </button>
+
+                  <div class="divider"><span>ou</span></div>
+
+                  <div class="auth-footer">
+                    <p>
+                      Você será redirecionado ao painel do vendedor após
+                      concluir.
+                    </p>
+                  </div>
+                </form>
+
+                <div
+                  id="errorMessage"
+                  class="error-message"
+                  style="display: none"
+                ></div>
+                <div
+                  id="successMessage"
+                  class="success-message"
+                  style="display: none"
+                ></div>
+              </div>
+
+              <button class="back-link" id="backBtn">
+                ← Voltar ao Marketplace
+              </button>
+            </div>
+
+            <script src="../js/router.js"></script>
+            <script src="../js/api.js"></script>
+            <script src="../js/auth.js"></script>
+            <script src="../js/become-seller.js"></script>
+          </body>
+        </html>
+      </div>
+    </div>
+  </body>
+</html>

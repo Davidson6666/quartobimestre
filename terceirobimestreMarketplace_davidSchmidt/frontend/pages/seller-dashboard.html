@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Vendedor - GameMarket</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                        <polyline points="17 2 12 7 7 2"></polyline>
+                    </svg>
+                    <span>GameMarket</span>
+                </div>
+                
+                <nav class="nav-links">
+                    <a href="../index.html" class="nav-link">Marketplace</a>
+                    <a href="seller-dashboard.html" class="nav-link active">Dashboard</a>
+                    <div class="user-menu">
+                        <span class="nav-link" id="userName">Vendedor</span>
+                        <button class="btn btn-secondary" id="logoutBtn">Sair</button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard-container">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <div>
+                    <h1>Dashboard do Vendedor</h1>
+                    <p>Gerencie seus produtos e vendas</p>
+                </div>
+                <button id="addProductBtn">Adicionar Produto</button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card-dashboard">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                            <polyline points="17 2 12 7 7 2"></polyline>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Produtos</div>
+                        <div class="stat-value" id="totalProducts">0</div>
+                    </div>
+                </div>
+                <div class="stat-card-dashboard">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Vendas</div>
+                        <div class="stat-value" id="totalSales">0</div>
+                    </div>
+                </div>
+                <div class="stat-card-dashboard">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" x2="12" y1="2" y2="22"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Receita</div>
+                        <div class="stat-value" id="totalRevenue">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="stat-card-dashboard">
+                    <div class="stat-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" x2="19" y1="8" y2="14"></line>
+                            <line x1="22" x2="16" y1="11" y2="11"></line>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-label">Pedidos Pendentes</div>
+                        <div class="stat-value" id="pendingOrders">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="section-card">
+                <div class="section-card-header">
+                    <h2>Meus Produtos</h2>
+                    <div class="search-filter">
+                        <input type="text" id="searchProducts" placeholder="Buscar produtos...">
+                    </div>
+                </div>
+                <div class="products-table-container" id="productsTableContainer">
+                    <div class="loading">Carregando produtos...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para Adicionar/Editar Produto -->
+    <div class="modal" id="productModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Adicionar Produto</h2>
+                <button class="modal-close" id="closeModalBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="productForm" class="modal-form">
+                <input type="hidden" id="productId" name="productId">
+                
+                <div class="form-group">
+                    <label for="productName">Nome do Produto</label>
+                    <input type="text" id="productName" name="nome" placeholder="Nome do Produto" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">Descrição</label>
+                    <textarea id="productDescription" name="descricao" placeholder="Descrição" rows="4" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productGame">Jogo</label>
+                        <select id="productGame" name="jogo_id">
+                            <option value="">Selecione um jogo (opcional)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productCategory">Categoria</label>
+                        <select id="productCategory" name="categoria_id" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="1">Jogo</option>
+                            <option value="2">Conta</option>
+                            <option value="3">Dinheiro</option>
+                            <option value="4">Item</option>
+                            <option value="5">Skin</option>
+                            <option value="6">Gift Card</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">Preço (R$)</label>
+                        <input type="number" id="productPrice" name="preco" placeholder="Preço" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productStock">Estoque</label>
+                        <input type="number" id="productStock" name="estoque" placeholder="Estoque" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imagemInput">Imagem do produto:</label>
+                    <input type="file" id="imagemInput" name="imagem" accept="image/*">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="submitProductBtn">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/seller-dashboard.js"></script>
+    <script>
+        // Exemplo de como fazer a requisição para obter os produtos do vendedor
+        fetch('http://localhost:3000/api/products/mine', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            // Aqui você pode atualizar a interface com os produtos retornados
+        })
+        .catch(error => {
+            console.error('Erro ao buscar produtos:', error);
+        });
+    </script>
+</body>
+</html>

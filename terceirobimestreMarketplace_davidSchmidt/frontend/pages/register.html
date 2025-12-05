@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Criar Conta - GameMarket</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/auth.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="logo-large">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+              <polyline points="17 2 12 7 7 2"></polyline>
+            </svg>
+          </div>
+          <h1>Criar Conta</h1>
+          <p>Junte-se ao GameMarket hoje</p>
+        </div>
+
+        <div class="account-type-selector">
+          <button type="button" id="buyerTypeBtn" class="type-btn active">
+            <span>🧑‍💻 Comprador</span>
+            <p class="type-desc">Compre produtos de jogos</p>
+          </button>
+          <button type="button" id="sellerTypeBtn" class="type-btn">
+            <span>🏪 Vendedor</span>
+            <p class="type-desc">Venda seus produtos</p>
+          </button>
+          <input type="hidden" id="accountType" value="buyer" />
+        </div>
+
+        <form id="registerForm" class="auth-form">
+          <div class="form-group">
+            <label for="name">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              Nome Completo
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Seu nome"
+              required
+              autocomplete="name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+              E-mail
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="seu@email.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              Senha
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              required
+              minlength="6"
+              autocomplete="new-password"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              Confirmar Senha
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="••••••••"
+              required
+              minlength="6"
+              autocomplete="new-password"
+            />
+          </div>
+
+          <div class="form-group" id="siglaGroup" style="display: none">
+            <label for="sigla">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <path d="M8 12h8"></path>
+              </svg>
+              Sigla do Vendedor
+              <span style="font-size: 12px">(apenas letras, única)</span>
+            </label>
+            <input
+              type="text"
+              id="sigla"
+              name="sigla"
+              placeholder="Ex: ma, jo, abc"
+              minlength="2"
+              maxlength="10"
+              pattern="^[a-zA-Z]+$"
+              autocomplete="off"
+            />
+            <small id="siglaHelp" class="form-text"
+              >Escolha uma sigla única, só letras, sem espaços ou
+              números.</small
+            >
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-large btn-block"
+            id="submitBtn"
+          >
+            Criar Conta
+          </button>
+
+          <div class="divider">
+            <span>ou</span>
+          </div>
+
+          <div class="auth-footer">
+            <p>Já tem uma conta? <a href="login.html" class="link">Entre</a></p>
+          </div>
+        </form>
+
+        <div
+          id="errorMessage"
+          class="error-message"
+          style="display: none"
+        ></div>
+        <div
+          id="successMessage"
+          class="success-message"
+          style="display: none"
+        ></div>
+      </div>
+
+      <a href="../index.html" class="back-link">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="m12 19-7-7 7-7"></path>
+          <path d="M19 12H5"></path>
+        </svg>
+        Voltar ao Marketplace
+      </a>
+    </div>
+
+    <script src="../js/router.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/register.js"></script>
+  </body>
+</html>
