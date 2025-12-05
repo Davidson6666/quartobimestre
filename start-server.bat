@@ -1,0 +1,1 @@
+$backendPath = "c:\Users\david\Downloads\trabalho_bd_3bimestre2\4bbimeste\terceirobimestreMarketplace_davidSchmidt\backend\home\ubuntu\marketplace-backend"; Push-Location $backendPath; npm start
