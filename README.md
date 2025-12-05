@@ -1,5 +1,4 @@
 # quartobimestre
-acabo aleluiaa
 
 relato:
 O desenvolvimento do meu projeto foi uma experiência marcante tanto em termos técnicos quanto pessoais. Logo no início, defini expectativas altas: queria criar um sistema funcional, organizado e com algumas funcionalidades diferenciadas, como um chat online em tempo real. Embora nem todas as ideias tenham sido implementadas, considero que o projeto atendeu quase completamente ao que eu esperava entregar. A estrutura principal ficou sólida, o funcionamento geral ocorreu como planejado e o aprendizado obtido durante o processo superou minhas próprias expectativas.
